@@ -1,3 +1,7 @@
+if(COMMAND cmake_policy)
+  cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+
 find_package(Java COMPONENTS Development REQUIRED)
 find_package(JNI REQUIRED)
 include(UseJava)
@@ -13,7 +17,8 @@ set(java_srcs
   src/main/java/org/cruzdb/zlog/ReadOnlyException.java
   src/main/java/org/cruzdb/zlog/ZObject.java)
 
-set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7" "-Xlint:-options")
+#set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7" "-Xlint:-options")
+set(CMAKE_JAVA_COMPILE_FLAGS "-source" "11" "-target" "11" "-Xlint:-options")
 add_jar(zlog_jar SOURCES ${java_srcs} OUTPUT_NAME zlog)
 install_jar(zlog_jar share/java)
 
@@ -43,7 +48,8 @@ if (DEFINED CUSTOM_REPO_URL)
   set(CENTRAL_REPO_URL ${CUSTOM_REPO_URL}/)
 else ()
   set(SEARCH_REPO_URL "http://search.maven.org/remotecontent?filepath=")
-  set(CENTRAL_REPO_URL "http://central.maven.org/maven2/")
+  #[[set(CENTRAL_REPO_URL "http://central.maven.org/maven2/")]]
+  set(CENTRAL_REPO_URL "https://repo1.maven.org/maven2/")
 endif()
 
 if(NOT EXISTS ${JAVA_JUNIT_JAR})
@@ -83,8 +89,10 @@ set(java_h native/org_cruzdb_zlog_Log.h)
 add_custom_command(
   OUTPUT ${java_h}
   DEPENDS ${java_srcs}
-  COMMAND ${Java_JAVAH_EXECUTABLE} -classpath ${zlog_jar_path}
-    -jni -o ${CMAKE_CURRENT_BINARY_DIR}/${java_h} org.cruzdb.zlog.Log)
+  #COMMAND ${Java_JAVAH_EXECUTABLE} -classpath ${zlog_jar_path}
+  #  -jni -o ${CMAKE_CURRENT_BINARY_DIR}/${java_h} org.cruzdb.zlog.Log)
+  COMMAND javac -h ${CMAKE_CURRENT_BINARY_DIR}/native -classpath ${zlog_jar_path} ${CMAKE_CURRENT_SOURCE_DIR}/src/main/java/org/cruzdb/zlog/Log.java)
+  #  -jni org.cruzdb.zlog.Log)
 
 add_custom_target(
   jni_headers

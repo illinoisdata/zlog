@@ -41,7 +41,7 @@ function debs() {
 
   # for doc/build.sh
   $SUDO env DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y python-virtualenv
+    apt-get install -y python3-virtualenv
 }
 
 function rpms() {
@@ -83,7 +83,7 @@ function rpms() {
   ! grep -q -i error: ${tmp}/yum-builddep.out || exit 1
 
   # for doc/build.sh
-  $SUDO $yumdnf install -y python-virtualenv
+  $SUDO $yumdnf install -y python3-virtualenv
 }
 
 source /etc/os-release
