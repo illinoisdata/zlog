@@ -18,7 +18,9 @@ set(java_srcs
   src/main/java/org/cruzdb/zlog/ZObject.java)
 
 #set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7" "-Xlint:-options")
-set(CMAKE_JAVA_COMPILE_FLAGS "-source" "11" "-target" "11" "-Xlint:-options")
+#set(CMAKE_JAVA_COMPILE_FLAGS "-source" "11" "-target" "11" "-Xlint:-options")
+set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.8" "-target" "1.8" "-Xlint:-options")
+
 add_jar(zlog_jar SOURCES ${java_srcs} OUTPUT_NAME zlog)
 install_jar(zlog_jar share/java)
 
