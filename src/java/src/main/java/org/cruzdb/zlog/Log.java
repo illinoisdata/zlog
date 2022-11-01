@@ -50,6 +50,7 @@ public class Log extends ZObject {
     for (Map.Entry<String, String> entry : options.entrySet()) {
       keys[count] = entry.getKey();
       vals[count] = entry.getValue();
+      count+=1;
     }
     Log log = new Log();
     log.openNative(scheme, keys, vals, name);
