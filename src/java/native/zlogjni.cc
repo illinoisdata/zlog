@@ -4,6 +4,7 @@
 
 #include "org_cruzdb_zlog_Log.h"
 #include "portal.h"
+using namespace std;
 
 void Java_org_cruzdb_zlog_Log_disposeInternal(
     JNIEnv *env, jobject jobj, jlong jhandle)
@@ -69,7 +70,17 @@ JNIEXPORT void JNICALL Java_org_cruzdb_zlog_Log_openNative
   }
 
   zlog::Log *log;
-  int ret = zlog::Log::Create(scheme, name, opts, "", "", &log);
+  auto it = opts.find("create");
+  int ret = 1;
+  if (it == opts.end()){
+    cout << "INFO: ZLOG open" << endl;
+    ret = zlog::Log::Open(scheme, name, opts, "", "", &log);
+  } else {
+    cout << "INFO: ZLOG create" << endl;
+    ret = zlog::Log::Create(scheme, name, opts, "", "", &log);
+  }
+//int ret = zlog::Log::Create(scheme, name, opts, "", "", &log);
+//int ret = zlog::Log::Open(scheme, name, opts, "", "", &log);
 
   env->ReleaseStringUTFChars(jscheme, scheme);
   env->ReleaseStringUTFChars(jname, name);
