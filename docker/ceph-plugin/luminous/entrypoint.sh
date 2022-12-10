@@ -27,12 +27,13 @@ case $ID in
 esac
 
 mkdir -p /src
+git config --global url."https://github".insteadOf git://github
 git clone --recursive https://github.com/cruzdb/zlog.git /src/zlog
 pushd /src/zlog
 mkdir build
 pushd build
 cmake ..
 make -j$(nproc) cls_zlog
-cp -a src/libzlog/backend/libcls_zlog.so* /plugin-output/
+cp -a /src/zlog/build/lib/libcls_zlog.so* /plugin-output/
 popd
 popd
